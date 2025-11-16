@@ -100,9 +100,7 @@ class SimpleVisionEncoder(nn.Module):
             features: [batch, num_patches, embed_dim]
         """
         x = self.patch_embed(images)
-        batch_size = x.shape[0]
         x = x.flatten(2).transpose(1, 2)
         x = x + self.pos_embed
         x = self.norm(x)
-        return x
         return x

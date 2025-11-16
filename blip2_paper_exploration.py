@@ -1,13 +1,12 @@
 """BLIP2 Paper Deep Dive"""
 
 import time
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from einops import rearrange, repeat
-from PIL import Image
+from einops import repeat
 
 from data_utils import ImageDataLoader, SimpleVisionEncoder
 
