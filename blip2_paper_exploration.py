@@ -1,4 +1,16 @@
-"""BLIP2 Paper Deep Dive"""
+"""
+BLIP2 Paper Deep Dive
+
+This file explores the key innovations in BLIP-2:
+1. Q-Former architecture with learnable queries
+2. Two-stage training strategy
+3. Frozen vision and language models
+4. Information bottleneck mechanism
+5. Cross-attention and self-attention interactions
+
+Paper: BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models
+Authors: Li et al.
+"""
 
 import time
 from typing import Optional
@@ -523,7 +535,7 @@ class MiniBlip2(nn.Module):
 def demo_two_stage_training():
     """Demonstrate two-stage training paradigm"""
     print("\n" + "=" * 80)
-    print("PART 5: Two-Stage Training Simulation")
+    print("PART 4: Two-Stage Training Simulation")
     print("=" * 80)
 
     batch_size = 4
@@ -775,12 +787,17 @@ if __name__ == "__main__":
     print("BLIP2 EXPLORATION")
     print("=" * 50)
 
+    # Part 1: Learnable Query Embeddings
     demo_learnable_queries()
 
+    # Part 2: Q-Former Architecture
     demo_qformer_architecture()
 
+    # Part 3: Stage 1 Training Objectives
     demo_stage1_objectives()
 
+    # Part 4: Two-Stage Training Paradigm
     demo_two_stage_training()
 
+    # Part 5: Performance Benchmarking
     benchmark_BLIP_components()

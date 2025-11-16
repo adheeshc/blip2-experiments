@@ -10,6 +10,20 @@ from torchvision.datasets import CIFAR10
 class ImageDataLoader:
     """Load real images from CIFAR-10 and test images"""
 
+    # CIFAR-10 class names mapping
+    CIFAR10_CLASSES = {
+        0: "airplane",
+        1: "automobile",
+        2: "bird",
+        3: "cat",
+        4: "deer",
+        5: "dog",
+        6: "frog",
+        7: "horse",
+        8: "ship",
+        9: "truck",
+    }
+
     def __init__(self, data_root: str = "./data", device: str = "cuda"):
         self.data_root = data_root
         self.device = device
@@ -47,7 +61,6 @@ class ImageDataLoader:
     def get_cifar_batch(self, batch_size: int, start_idx: int = 0) -> torch.Tensor:
         """Get batch of CIFAR-10 images"""
         if self.cifar_dataset is None:
-            # Fallback to random if CIFAR not available
             return torch.randn(batch_size, 3, 224, 224).to(self.device)
 
         batch_images = []
@@ -56,6 +69,31 @@ class ImageDataLoader:
             img, _ = self.cifar_dataset[idx]
             batch_images.append(img)
         return torch.stack(batch_images).to(self.device)
+
+    def get_cifar_batch_by_class(self, batch_size: int, class_id: int) -> torch.Tensor:
+        """Get batch of CIFAR-10 images from a specific class"""
+        if self.cifar_dataset is None:
+            return torch.randn(batch_size, 3, 224, 224).to(self.device)
+
+        batch_images = []
+        count = 0
+
+        # Iterate through dataset to find images of the specified class
+        for img, label in self.cifar_dataset:
+            if label == class_id:
+                batch_images.append(img)
+                count += 1
+                if count >= batch_size:
+                    break
+
+        if len(batch_images) < batch_size:
+            print(f"Warning: Only found {len(batch_images)} images for class {class_id}")
+
+        return torch.stack(batch_images).to(self.device)
+
+    def get_class_name(self, class_id: int) -> str:
+        """Get the class name for a given class ID"""
+        return self.CIFAR10_CLASSES.get(class_id, "unknown")
 
     def get_test_images(self, num_images: int = 4) -> torch.Tensor:
         """Load test images from disk"""
